@@ -4,8 +4,7 @@ namespace RLS {
 		public:
 			enum State : signed int {
 						LOW = 0,
-						HIGH = 1,
-						FLOATING = -1
+						HIGH = 1
 					};
 
 			GPIO_Digital(GPIOPin pin);

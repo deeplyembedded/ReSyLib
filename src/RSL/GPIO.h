@@ -85,7 +85,11 @@ namespace RSL {
 		
 		enum Direction {
 			INPUT, INPUT_PULLUP, INPUT_PULLDOWN, OUTPUT
-		};			
+		};
+
+		enum GPIOType {
+			DIGITAL, PWM
+		};
 }
 
 namespace RSL_core {
