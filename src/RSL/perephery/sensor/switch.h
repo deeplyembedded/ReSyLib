@@ -1,8 +1,8 @@
 /*
  * switch.h
  *
- *      @date 22.10.2015
- *      @author Easy, JI
+ *      @date 27.10.2015
+ *      @author Easy, JI, Daniel, Till
  */
 
 #ifndef SWITCH_H_
@@ -15,58 +15,40 @@ class Switch: public Sensor {
 private:
 
     /**
-     * remembers if the switch is single or double poled.
-     */
-    bool doublePole;
-    
-    /**
      * remembers the active state of the switch (true = HIGH).
      */
     bool activeState;
-    
+
     /**
      * the first (or only) gpio pin used by the switch.
      */
-    GPIOPIN pin1;
-    
-    /**
-     * the second gpio pin used by the switch.
-     */
-    GPIOPIN pin2;
+    GPIO_Digital pin;
 
 public:
 
     /**
      * constructor for single poled switches.
-     * registers the GPIOPIN.
-     * @param pin1 the PIN used by the switch
+     * registers the GPIOPin.
+     * @param pin the PIN used by the switch
      */
-    Switch(GPIOPIN pin1);
+    Switch(GPIO::GPIOPin pin);
 
     /**
-     * constructor for double poled switches.
-     * registers the GPIOPINs.
-     * @param pin1 the main PIN used by the switch
-     * @param pin2 the second PIN used by the switch
-     */
-    Switch(GPIOPIN pin1, GPIOPIN pin2);
-
-    /**
-     * deconstructor that unregisters the GPIOPINs
+     * deconstructor that unregisters the GPIOPins
      */
     virtual ~Switch();
-    
+
     /**
      * get the active state of the switch.
      * @return true, if switch is in active state - false otherwise
      */
     bool isPressed();
-    
+
     /**
      * set the active state of the switch to HIGH or LOW.
      * @param state the active gpio state
      */
-    void setActiveState(GPIOSTATE state);
+    void setActiveState(GPIO_Digital::State state);
 
 private:
     /**
