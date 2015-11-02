@@ -1,7 +1,7 @@
 /*
  * switch.cpp
  *
- *      @date 27.10.2015
+ *      @date 2.12.2015
  *      @author Easy, JI, Daniel, Till
  */
 
@@ -9,6 +9,7 @@
 
 Switch::Switch(GPIO::GPIOPin pin){
   if(pin != null){
+    activeState = false;
     //TODO: define GPIOType
     this.pin = (GPIO_Digital)getGPIORessource(GPIO::GPIOType.Digital, pin);
     pin.setDirection(GPIO::Direction.INPUT);
@@ -28,10 +29,6 @@ bool Switch::isPressed(){
 
 void Switch::setActiveState(GPIO_Digital::State state){
   if(state != null){
-    if(state == GPIO_Digital::State.HIGH){
-      activeState = true;
-    } else {
-      activeState = false;
-    }
+    activeState = (state == GPIO_Digital::State.HIGH);
   }
 }
