@@ -8,6 +8,8 @@
 #ifndef SWITCH_H_
 #define SWITCH_H_
 
+#include "../../GPIO.h"
+#include "../../GPIO_Digital.h"
 #include "../sensor.h"
 
 class Switch: public Sensor {

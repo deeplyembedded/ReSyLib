@@ -5,17 +5,13 @@
  *      @author Easy, JI, Daniel, Till
  */
 
-#include "switch.h"
+#include "../switch.h"
 
 Switch::Switch(GPIO::GPIOPin pin){
-  if(pin != null){
     activeState = false;
     //TODO: define GPIOType
     this.pin = (GPIO_Digital)getGPIORessource(GPIO::GPIOType.Digital, pin);
     pin.setDirection(GPIO::Direction.INPUT);
-  } else {
-    throw new ParamIsNullException();
-  }
 }
 
 Switch::~Switch(){
