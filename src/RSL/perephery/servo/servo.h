@@ -8,21 +8,21 @@
 #ifndef SERVO_H_
 #define SERVO_H_
 
-#include "../actor.h"
+#include "../periphery.h"
 
-class Servo: public Actor {
+class Servo: public Periphery {
 
 private:
 
     /**
      * storage of the current position in degrees
      */
-    uint16_t currentPosition;
+    double currentPosition;
     
     /**
      * the pin used for servo pwm
      */
-    GPIOPIN servoPin;
+    GPIO_PWM servoPin;
 
 public:
 
@@ -30,7 +30,7 @@ public:
      * constructor of servo object
      * @param pin used for servo
      */
-    Servo(GPIOPIN servoPin);
+    Servo(GPIOPin servoPin);
 
     /**
      * deconstructor of servo object
@@ -41,13 +41,13 @@ public:
      * get the current servo position
      * @return current servo position
      */
-    uint16_t getPosition(void);
+    double getPosition(void);
     
     /**
      * set the servo position in degrees
      * @param desired position in degrees
      */
-    void setPosition(uint16_t degrees);
+    void setPosition(double position);
 
 private:
     /**
