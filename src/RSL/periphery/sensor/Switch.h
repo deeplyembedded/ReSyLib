@@ -8,9 +8,9 @@
 #ifndef SWITCH_H_
 #define SWITCH_H_
 
-#include "../../GPIO.h"
-#include "../../GPIO_Digital.h"
-#include "../sensor.h"
+#include "../Sensor.h"
+
+namespace RSL {
 
 class Switch: public Sensor {
 
@@ -33,10 +33,10 @@ public:
      * registers the GPIOPin.
      * @param pin the PIN used by the switch
      */
-    Switch(GPIO::GPIOPin pin);
+    Switch(GPIOPin pin);
 
     /**
-     * deconstructor that unregisters the GPIOPins
+     * destructor that unregisters the GPIOPins
      */
     virtual ~Switch();
 
@@ -63,5 +63,7 @@ private:
      */
     Switch& operator=(Switch& b);
 };
+
+} /* namespace RSL */
 
 #endif /* SWITCH_H_ */

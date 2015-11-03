@@ -1,21 +1,20 @@
 /*
- * Periphery.cpp
+ * Sensor.cpp
  *
  *  @date   03.11.2015
  *  @author Easy, JI, Daniel, Till
- *
  */
 
-#include "Periphery.h"
+#include "Sensor.h"
 
 namespace RSL {
 
-Periphery::Periphery() {
+Sensor::Sensor() {
     // TODO Auto-generated constructor stub
 
 }
 
-Periphery::~Periphery() {
+Sensor::~Sensor() {
     // TODO Auto-generated destructor stub
 }
 

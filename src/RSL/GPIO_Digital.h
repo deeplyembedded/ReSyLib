@@ -1,14 +1,19 @@
-namespace RLS {
+#include "GPIO.h"
 
-	class GPIO_Digital {
+namespace RSL {
+
+	class GPIO_Digital : public RSL_core::GPIO {
 		public:
 			enum State : signed int {
 						LOW = 0,
 						HIGH = 1
 					};
-
-			GPIO_Digital(GPIOPin pin);
+			GPIO_Digital(){}
+			GPIO_Digital(GPIOPin pin){} //TODO implement constructor -> CPP
 			
+			void initialize() {}        //TODO implement functions in CPP
+			void shutdown() {}
+
 			void setDirection(Direction direction);
 			Direction getDirection();
 			

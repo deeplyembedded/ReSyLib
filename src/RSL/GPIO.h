@@ -1,5 +1,5 @@
 namespace RSL {
-	public:
+
 		enum GPIOPin {
 			// P8 header
 			P8_3 = 38,
@@ -95,6 +95,7 @@ namespace RSL {
 namespace RSL_core {
 	class GPIO {
 		public:
+	        virtual ~GPIO();
 			
 			virtual void initialize() = 0;
 			virtual void shutdown() = 0;
