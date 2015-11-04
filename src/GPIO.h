@@ -102,8 +102,6 @@ public:
 	virtual void initialize() = 0;
 	virtual void shutdown() = 0;
 
-	virtual ~GPIO();
-
 protected:
 
 	static void exportPin(RSL::GPIOPin pin);
