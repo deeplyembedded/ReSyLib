@@ -19,4 +19,8 @@ Periphery::~Periphery() {
     // TODO Auto-generated destructor stub
 }
 
+RSL_core::GPIO& Periphery::getGPIOResource(GPIOType type, GPIOPin& pin) {
+    //TODO implement function
+}
+
 } /* namespace RSL */

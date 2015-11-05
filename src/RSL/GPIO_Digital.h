@@ -9,16 +9,16 @@ namespace RSL {
 						HIGH = 1
 					};
 			GPIO_Digital(){}
-			GPIO_Digital(GPIOPin pin){} //TODO implement constructor -> CPP
+			GPIO_Digital(GPIOPin pin){}                 //TODO implement constructor -> CPP
 			
-			void initialize() {}        //TODO implement functions in CPP
-			void shutdown() {}
+			void initialize() {}                        //TODO implement functions in CPP
+			void shutdown() {}                          //TODO implement function in CPP
 
-			void setDirection(Direction direction);
+			void setDirection(Direction direction) {}   //TODO implement function in CPP
 			Direction getDirection();
 			
-			void setValue(State value);
-			State getValue();
+			void setValue(State value) {}               //TODO implement function in CPP
+			State getValue() {}                         //TODO implement function in CPP
 			
 			~GPIO_Digital();
 	};

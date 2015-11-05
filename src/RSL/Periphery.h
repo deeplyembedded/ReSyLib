@@ -17,7 +17,7 @@ public:
     Periphery();
     virtual ~Periphery();
 
-    RSL_core::GPIO getGPIORessource(GPIOType type, GPIOPin pin);
+    RSL_core::GPIO& getGPIOResource(GPIOType type, GPIOPin& pin);
 };
 
 } /* namespace RSL */

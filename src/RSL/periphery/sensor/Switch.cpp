@@ -10,10 +10,11 @@
 
 namespace RSL {
 
-Switch::Switch(GPIOPin pin) {
-    activeState = false;
-    Switch::pin = (GPIO_Digital)getGPIORessource(DIGITAL, pin);
-    Switch::pin.setDirection(INPUT);
+Switch::Switch(GPIOPin& pin_)
+    : activeState(false)
+    , pin((GPIO_Digital&)getGPIOResource(DIGITAL, pin_))
+{
+    pin.setDirection(INPUT);
 }
 
 Switch::~Switch(){
