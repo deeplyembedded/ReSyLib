@@ -1,3 +1,6 @@
+#ifndef GPIO_PWM_H_
+#define GPIO_PWM_H_
+
 #include <fstream>
 #include <string>
 
@@ -42,3 +45,5 @@ namespace RSL {
 	};
 
 };
+
+#endif // GPIO_PWM_H_
