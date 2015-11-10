@@ -5,12 +5,13 @@
  *      @author Yannic, Moritz
  */
 
-#ifndef SERVO_H_
-#define SERVO_H_
+#pragma once
 
-#include "../periphery.h"
+namespace RSL {
 
-class Servo: public Periphery {
+#include "../../../GPIO_PWM.h"
+
+class Servo {
 
 private:
 
@@ -22,7 +23,7 @@ private:
     /**
      * the pin used for servo pwm
      */
-    GPIO_PWM servoPin;
+    GPIO_PWM* servoPin;
 
 public:
 
@@ -49,6 +50,9 @@ public:
      */
     void setPosition(double position);
 
+    void enableServo();
+    void disableServo();
+
 private:
     /**
      * hide copy constructor
@@ -61,4 +65,5 @@ private:
     Servo& operator=(Servo& b);
 };
 
-#endif /* SERVO_H_ */
+};
+

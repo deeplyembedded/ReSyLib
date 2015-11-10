@@ -15,9 +15,26 @@ using namespace RSL;
 
 // todo check pin form usability
 GPIO_PWM::GPIO_PWM(GPIOPin pin) {
+	this->pin = pin;
+
+	polarity = Polarity::PHASED;
+	period = 0;
+	duty = 0;
+	pwmState = PWMState::OFF;
+	dutyFileStream = nullptr;
+	periodFileStream = nullptr;
+	polarityFileStream = nullptr;
+	activeFileStream = nullptr;
+}
+
+GPIO_PWM::~GPIO_PWM() {
+	shutdown();
+}
+
+void GPIO_PWM::initialize() {
 	std::fstream fileStream;
 
-	this->pin = pin;
+	exportPin(pin);
 
 	fileStream.open((SLOT_FILE_PATH).c_str(), fstream::out | fstream::in);
 	fileStream << "am33xx_pwm";
@@ -34,14 +51,15 @@ GPIO_PWM::GPIO_PWM(GPIOPin pin) {
 	setPeriod(20000000);
 	setDuty(1000000 + (1000000 * 0.5));
 	setPolarity(GPIO_PWM::Polarity::PHASED);
-
 }
 
-GPIO_PWM::~GPIO_PWM() {
+void GPIO_PWM::shutdown() {
 	dutyFileStream.close();
 	periodFileStream.close();
 	polarityFileStream.close();
 	activeFileStream.close();
+
+	unExportPin(pin);
 }
 
 void GPIO_PWM::setPeriod(unsigned int period) {
