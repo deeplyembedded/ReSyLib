@@ -1,5 +1,6 @@
 #include "GPIO.h"
 #include <unordered_set>
+#include <vector>
 
 namespace RSL_core {
 class HWManager
@@ -12,15 +13,17 @@ class HWManager
             return instance;
         };
 		
-		GPIO createGPIORessource(RSL::GPIOType type, RSL::GPIOPin pin);
-		GPIO createGPIORessource(RSL::GPIOType type, std::vector<RSL::GPIOPin> pins);
-		void deleteGPIORessource(GPIO ressource);
-		void freeGPIOPin(RSL::GPIOPin pin);
+		GPIO& createGPIOResource(RSL::GPIOType& type, RSL::GPIOPin& pin);
+		GPIO& createGPIOResource(RSL::GPIOType& type, std::vector<RSL::GPIOPin>& pins);
+		void deleteGPIOResource(GPIO& resource);
+
+		void allocateGPIOPin(RSL::GPIOPin& pin);
+		void freeGPIOPin(RSL::GPIOPin& pin);
 		
     private:
 		std::unordered_set<RSL::GPIOPin> pinsInUse;
 
-        HWManager() {}; // Constructor
+        HWManager(); // Constructor
 
         HWManager(HWManager const&) = delete;
         void operator=(HWManager const&) = delete;
