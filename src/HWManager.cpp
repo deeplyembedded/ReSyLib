@@ -1,64 +1,60 @@
 #include "HWManager.h"
+#include "GPIO_Digital.h"
 
 namespace RSL_core {
 using namespace RSL_core;
 
 HWManager::HWManager(){}
 
-GPIO& HWManager::createGPIOResource(RSL::GPIOType& type, RSL::GPIOPin& pin) {
-	GPIO resource = NULL;
+GPIO* HWManager::createGPIOResource(RSL::GPIOType type, RSL::GPIOPin pin) {
+	GPIO* resource;
+	if (pinsInUse.count((int)pin) == 0) {
+		if (type==RSL::DIGITAL) {
+			resource = new RSL::GPIO_Digital(pin);
+		} else if (type==RSL::PWM) {
 
-	if (pinsInUse.find(pin) == 0) {
-		switch (type) {
-		case RSL::DIGITAL:
-			resource = RSL::GPIO_Digital(pin);
-			break;
-		case RSL::PWM:
-			break;
 		}
 	}
 
-	if (resource) {
-		resource.initialize();
+	if (resource != NULL) {
+		resource->initialize();
 	}
 
-	return resource;
+	return NULL;
 }
 
-GPIO& HWManager::createGPIOResource(RSL::GPIOType& type,
+GPIO* HWManager::createGPIOResource(RSL::GPIOType type,
 		std::vector<RSL::GPIOPin>& pins) {
-	GPIO resource = NULL;
+	GPIO* resource = NULL;
 	bool allPinsFree = true;
 
 	for (auto p : pins) {
-		if (pinsInUse.find(p) > 0) {
+		if (pinsInUse.count((int)p) > 0) {
 			allPinsFree = false;
 		}
 	}
 
 	if (allPinsFree) {
-		switch (type) {
-
-		}
+		// add new GPIOs here
 	}
 
-	if (resource) {
-		resource.initialize();
+	if (resource != NULL) {
+		resource->initialize();
 	}
 
 	return resource;
 }
 
-void HWManager::deleteGPIOResource(GPIO& resource) {
-	resource.shutdown();
+void HWManager::deleteGPIOResource(GPIO* resource) {
+	resource->shutdown();
 }
 
-void HWManager::allocateGPIOPin(RSL::GPIOPin& pin) {
-	pinsInUse.insert(pin);
+void HWManager::allocateGPIOPin(RSL::GPIOPin pin) {
+	pinsInUse.insert((int)pin);
 }
 
-void HWManager::freeGPIOPin(RSL::GPIOPin& pin) {
-	pinsInUse.erase(pin);
+void HWManager::freeGPIOPin(RSL::GPIOPin pin) {
+	pinsInUse.erase((int)pin);
 }
 }
 ;

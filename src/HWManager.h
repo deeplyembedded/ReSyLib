@@ -1,3 +1,5 @@
+#pragma once
+
 #include "GPIO.h"
 #include <unordered_set>
 #include <vector>
@@ -13,15 +15,15 @@ class HWManager
             return instance;
         };
 		
-		GPIO& createGPIOResource(RSL::GPIOType& type, RSL::GPIOPin& pin);
-		GPIO& createGPIOResource(RSL::GPIOType& type, std::vector<RSL::GPIOPin>& pins);
-		void deleteGPIOResource(GPIO& resource);
+		GPIO* createGPIOResource(RSL::GPIOType type, RSL::GPIOPin pin);
+		GPIO* createGPIOResource(RSL::GPIOType type, std::vector<RSL::GPIOPin>& pins);
+		void deleteGPIOResource(GPIO* resource);
 
-		void allocateGPIOPin(RSL::GPIOPin& pin);
-		void freeGPIOPin(RSL::GPIOPin& pin);
+		void allocateGPIOPin(RSL::GPIOPin pin);
+		void freeGPIOPin(RSL::GPIOPin pin);
 		
     private:
-		std::unordered_set<RSL::GPIOPin> pinsInUse;
+		std::unordered_set<int> pinsInUse;
 
         HWManager(); // Constructor
 
