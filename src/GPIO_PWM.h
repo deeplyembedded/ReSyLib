@@ -1,4 +1,5 @@
 #pragma once
+
 #include "GPIO.h"
 #include <fstream>
 #include <String>
@@ -6,6 +7,7 @@
 namespace RSL {
 
 	using namespace RSL_core;
+	using namespace RSL;
 	using namespace std;
 
 	class GPIO_PWM : public RSL_core::GPIO {
@@ -37,7 +39,10 @@ namespace RSL {
 			const string PWM_PATH = "/sys/devices/ocp.3/";
 
 			GPIOPin pin;
-
+			Polarity polarity;
+			PWMState pwmState;
+			unsigned int period, duty;
+			std::fstream dutyFileStream, periodFileStream, polarityFileStream, activeFileStream;
 
 			string getPinNameFromEnum(GPIOPin pin);
 	};

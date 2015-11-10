@@ -21,10 +21,6 @@ GPIO_PWM::GPIO_PWM(GPIOPin pin) {
 	period = 0;
 	duty = 0;
 	pwmState = PWMState::OFF;
-	dutyFileStream = nullptr;
-	periodFileStream = nullptr;
-	polarityFileStream = nullptr;
-	activeFileStream = nullptr;
 }
 
 GPIO_PWM::~GPIO_PWM() {
@@ -117,6 +113,7 @@ string getPinNameFromEnum(GPIOPin pin) {
 		case P9_21: return "P9_21";
 		case P9_22: return "P9_22";
 		case P9_42: return "P9_42";
+		default: return "";
 	};
 
 	return "";
