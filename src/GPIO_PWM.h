@@ -45,6 +45,7 @@ namespace RSL {
 			std::fstream dutyFileStream, periodFileStream, polarityFileStream, activeFileStream;
 
 			string getPinNameFromEnum(GPIOPin pin);
+			string getPWMNameFromEnum(GPIOPin pin);
 	};
 
 };

@@ -1,17 +1,26 @@
-#include <GPIO_Digital.h>
+#include "../src/GPIO_PWM.h"
 #include <unistd.h>
+#include <iostream>
 
 int main(int argc, char **argv) {
 	using namespace RSL;
 
-	GPIO_Digital ledPin(GPIOPin::P9_12);
-	ledPin.initialize();
-	ledPin.setDirection(Direction::OUTPUT);
+	GPIO_PWM servoPin(GPIOPin::P9_14);
+
+	servoPin.initialize();
+
+	servoPin.enablePWM();
+	servoPin.setPeriod(20000000);
+	servoPin.setDuty(1000000);
+	servoPin.setPolarity(GPIO_PWM::Polarity::DEPHASED);
+
 
 	while (true) {
-		ledPin.setValue(GPIO_Digital::State::HIGH);
+		servoPin.setDuty(1000000);
+		std::cout << "1" << endl;
 		sleep(1);
-		ledPin.setValue(GPIO_Digital::State::LOW);
+		servoPin.setDuty(1700000);
+		std::cout << "2" << endl;
 		sleep(1);
 	}
 }
