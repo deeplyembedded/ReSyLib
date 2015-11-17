@@ -1,8 +1,10 @@
 #include "GPIO_Digital.h"
 #include <string>
+#include <iostream>
 
 namespace RSL {
 using namespace RSL;
+using namespace std;
 
 GPIO_Digital::GPIO_Digital(GPIOPin pin) {
 	this->pin = pin;
@@ -27,6 +29,8 @@ void GPIO_Digital::shutdown() {
 }
 
 void GPIO_Digital::setDirection(Direction direction) {
+	valueFileStream.seekg(0);
+	directionFileStream.seekg(0);
 	switch (direction) {
 	case INPUT:
 		directionFileStream << "in";
@@ -65,9 +69,11 @@ void GPIO_Digital::setValue(GPIO_Digital::State value) {
 }
 
 GPIO_Digital::State GPIO_Digital::getValue() {
-	int val;
+	string val;
+	valueFileStream.seekg(0);
 	valueFileStream >> val;
-	return (State) val;
+
+	return (val == "0") ? GPIO_Digital::LOW : GPIO_Digital::HIGH;
 }
 
 GPIO_Digital::~GPIO_Digital() {
