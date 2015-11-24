@@ -24,7 +24,7 @@ private:
     /**
      * the first (or only) gpio pin used by the switch.
      */
-    GPIO_Digital& pin;
+    GPIO_Digital* pin;
 
 public:
 
@@ -33,7 +33,7 @@ public:
      * registers the GPIOPin.
      * @param pin the PIN used by the switch
      */
-    Switch(GPIOPin& pin);
+    Switch(GPIOPin pin);
 
     /**
      * destructor that unregisters the GPIOPins

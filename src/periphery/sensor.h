@@ -9,6 +9,7 @@
 #define SRC_RSL_PERIPHERY_SENSOR_H_
 
 #include "../Periphery.h"
+#include "../HWManager.h"
 
 namespace RSL {
 
