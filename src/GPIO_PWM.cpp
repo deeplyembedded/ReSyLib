@@ -6,7 +6,11 @@
  */
 
 #include "GPIO_PWM.h"
+#include <string.h>
+#include <dirent.h>
 #include <string>
+#include <iostream>
+#include <unistd.h>
 
 namespace RSL {
 
@@ -29,27 +33,39 @@ GPIO_PWM::~GPIO_PWM() {
 
 void GPIO_PWM::initialize() {
 	std::fstream fileStream;
+	string pwmPinPath;
 
 	exportPin(pin);
 
 	fileStream.open((SLOT_FILE_PATH).c_str(), fstream::out | fstream::in);
-	fileStream.seekg(0);
 	fileStream << "am33xx_pwm";
 	fileStream.flush();
-	fileStream.seekg(0);
+
 	fileStream << "bone_pwm_" + GPIO_PWM::getPinNameFromEnum(pin);
 	fileStream.flush();
 	fileStream.close();
+	usleep(1000);
 
-	dutyFileStream.open((PWM_PATH + getPWMNameFromEnum(pin) + "/duty").c_str(), fstream::out | fstream::in);
-	periodFileStream.open((PWM_PATH + getPWMNameFromEnum(pin) + "/period").c_str(), fstream::out | fstream::in);
-	polarityFileStream.open((PWM_PATH + getPWMNameFromEnum(pin) + "/polarity").c_str(), fstream::out | fstream::in);
-	activeFileStream.open((PWM_PATH + getPWMNameFromEnum(pin) + "/run").c_str(), fstream::out | fstream::in);
+	pwmPinPath = PWM_PATH + getPWMNameFromEnum(pin);
+	std::cout << "'" << pwmPinPath << "'" << endl;
 
-	disablePWM();
-	setPeriod(0);
-	setDuty(0);
-	setPolarity(GPIO_PWM::Polarity::PHASED);
+	dutyFileStream.open((pwmPinPath + "/duty").c_str(), fstream::out | fstream::in);
+	//dutyFileStream << "1000000";
+	periodFileStream.open((pwmPinPath + "/period").c_str(), fstream::out | fstream::in);
+	//setPeriod(20000000);
+	polarityFileStream.open((pwmPinPath + "/polarity").c_str(), fstream::out | fstream::in);
+	//polarityFileStream << "0";
+	activeFileStream.open((pwmPinPath + "/run").c_str(), fstream::out | fstream::in);
+	//activeFileStream << "1";
+
+	if (dutyFileStream.fail())
+		std::cout << "alles kaputt!" << endl;
+
+	//setPolarity(GPIO_PWM::Polarity::PHASED);
+	//disablePWM();
+	//setPeriod(0);
+	//setDuty(0);
+
 }
 
 void GPIO_PWM::shutdown() {
@@ -63,8 +79,7 @@ void GPIO_PWM::shutdown() {
 
 void GPIO_PWM::setPeriod(unsigned int period) {
 	this->period = period;
-	periodFileStream.seekg(0);
-	periodFileStream << period;
+	periodFileStream << to_string(period);
 	periodFileStream.flush();
 }
 
@@ -74,8 +89,7 @@ unsigned int GPIO_PWM::getPeriod() {
 
 void GPIO_PWM::setDuty(unsigned int duty) {
 	this->duty = duty;
-	dutyFileStream.seekg(0);
-	dutyFileStream << duty;
+	dutyFileStream << to_string(duty);
 	dutyFileStream.flush();
 }
 
@@ -85,8 +99,7 @@ unsigned int GPIO_PWM::getDuty() {
 
 void GPIO_PWM::setPolarity(Polarity polarity) {
 	this->polarity = polarity;
-	polarityFileStream.seekg(0);
-	polarityFileStream << polarity;
+	polarityFileStream << to_string(polarity);
 	polarityFileStream.flush();
 }
 
@@ -96,15 +109,13 @@ GPIO_PWM::Polarity GPIO_PWM::getPolarity() {
 
 void GPIO_PWM::enablePWM() {
 	this->pwmState = GPIO_PWM::PWMState::ON;
-	activeFileStream.seekg(0);
-	activeFileStream << 1;// debug GPIO_PWM::PWMState::ON;
+	activeFileStream << to_string(GPIO_PWM::PWMState::ON);
 	activeFileStream.flush();
 }
 
 void GPIO_PWM::disablePWM() {
 	this->pwmState = GPIO_PWM::PWMState::OFF;
-	activeFileStream.seekg(0);
-	activeFileStream << 0;// debug GPIO_PWM::PWMState::OFF;
+	activeFileStream << to_string(GPIO_PWM::PWMState::OFF);
 	activeFileStream.flush();
 }
 
@@ -128,16 +139,30 @@ string GPIO_PWM::getPinNameFromEnum(GPIOPin pin) {
 }
 
 string GPIO_PWM::getPWMNameFromEnum(GPIOPin pin) {
-	switch (pin) {
-		case P8_13: return "P8_13";
-		case P8_19: return "P8_19";
-		case P9_14: return "pwm_test_P9_14.15";
-		case P9_16: return "P9_16";
-		case P9_21: return "P9_21";
-		case P9_22: return "P9_22";
-		case P9_42: return "P9_42";
-		default: return "";
-	};
+	string tmpPath = getPinNameFromEnum(pin);
+
+	if (tmpPath != "") {
+		return findPWMName(PWM_PATH, "pwm_test_" + tmpPath);
+	} else {
+		return "";
+	}
+}
+
+string GPIO_PWM::findPWMName(string path, string pinName) {
+	DIR* openedDir = opendir(path.c_str());
+	struct dirent* readDir;
+
+	if (openedDir) {
+
+		while((readDir = readdir(openedDir)) != 0) {
+			if (strstr(readDir->d_name, pinName.c_str()) != 0) {
+				closedir(openedDir);
+				return readDir->d_name;
+			}
+		}
+
+		closedir(openedDir);
+	}
 
 	return "";
 }

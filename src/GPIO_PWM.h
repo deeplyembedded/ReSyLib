@@ -46,6 +46,7 @@ namespace RSL {
 
 			string getPinNameFromEnum(GPIOPin pin);
 			string getPWMNameFromEnum(GPIOPin pin);
+			string findPWMName(string path, string pinName);
 	};
 
 };

@@ -9,10 +9,10 @@ int main(int argc, char **argv) {
 
 	servoPin.initialize();
 
-	servoPin.enablePWM();
-	servoPin.setPeriod(20000000);
-	servoPin.setDuty(1000000);
 	servoPin.setPolarity(GPIO_PWM::Polarity::DEPHASED);
+	servoPin.setPeriod(20000000);
+	servoPin.enablePWM();
+	servoPin.setDuty(1000000);
 
 
 	while (true) {
