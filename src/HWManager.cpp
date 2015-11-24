@@ -20,7 +20,7 @@ GPIO* HWManager::createGPIOResource(RSL::GPIOType type, RSL::GPIOPin pin) {
 		resource->initialize();
 	}
 
-	return NULL;
+	return resource;
 }
 
 GPIO* HWManager::createGPIOResource(RSL::GPIOType type,
