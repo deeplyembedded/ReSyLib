@@ -1,4 +1,5 @@
 # ReSyLib
+
 Library for Reactive Systems in C++11 for easy GPIO access - tested on Beaglebone Black
 
 The library in this repository is the result of a lecture class by Prof. Stephan Pareigis held at Hamburg University of Applied Sciences Department Computer Science. 
@@ -12,3 +13,5 @@ Here are some ideas:
 - dispatcher and observer
 - message queue
 - protocol state machine
+
+Homepage: http://deeplyembedded.github.io/ReSyLib/
