@@ -8,9 +8,13 @@
 #ifndef SWITCH_H_
 #define SWITCH_H_
 
+#include <memory>
 #include "../Sensor.h"
 
+
 namespace RSL {
+
+using namespace std;
 
 class Switch: public Sensor {
 
@@ -24,7 +28,7 @@ private:
     /**
      * the first (or only) gpio pin used by the switch.
      */
-    GPIO_Digital* pin;
+    unique_ptr<GPIO_Digital> pin;
 
 public:
 
@@ -33,7 +37,7 @@ public:
      * registers the GPIOPin.
      * @param pin the PIN used by the switch
      */
-    Switch(GPIOPin pin);
+    Switch();
 
     /**
      * destructor that unregisters the GPIOPins
@@ -41,10 +45,22 @@ public:
     virtual ~Switch();
 
     /**
+     * check if pin has been initialized
+     * @return true if pin has been assigned
+     */
+    bool isInitialized() const;
+
+    /**
+     * initializes switch with GPIO pin
+     * @param GPIOPin
+     */
+    void initialize(GPIOPin pin);
+
+    /**
      * get the active state of the switch.
      * @return true, if switch is in active state - false otherwise
      */
-    bool isPressed();
+    bool isPressed() const;
 
     /**
      * set the active state of the switch to HIGH or LOW.

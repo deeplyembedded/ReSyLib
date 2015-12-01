@@ -7,34 +7,40 @@
 
 #include "Switch.h"
 
-
 namespace RSL {
 
-Switch::Switch(GPIOPin pin_)
-    : activeState(false)
+Switch::Switch()
+	: activeState(false)
+	, pin(nullptr)
 {
+}
+
+Switch::~Switch() {
+	if(isInitialized())
+		pin->shutdown();
+}
+
+bool Switch::isInitialized() const {
+	return pin != nullptr;
+}
+
+void Switch::initialize(GPIOPin pin_) {
 	RSL_core::HWManager& hwManager = RSL_core::HWManager::getInstance();
-	if(&hwManager == NULL){
-		//TODO: error handling and return / destroy self
-	}
-	pin = (GPIO_Digital*)hwManager.createGPIOResource(DIGITAL,pin_);
-	if(pin == NULL){
+
+	pin = (unique_ptr<GPIO_Digital>)hwManager.createGPIOResource(DIGITAL,pin_);
+	if(pin == nullptr){
 		//TODO: error handling and return / destroy self
 	}
 	pin->setDirection(INPUT);
 }
 
-Switch::~Switch(){
-    pin->shutdown();
+bool Switch::isPressed() const {
+	GPIO_Digital::State pinValue = pin->getValue();
+	return (activeState) ? pinValue : !pinValue;
 }
 
-bool Switch::isPressed(){
-    GPIO_Digital::State pinValue = pin->getValue();
-    return (activeState) ? pinValue : !pinValue;
-}
-
-void Switch::setActiveState(GPIO_Digital::State state){
-    activeState = (state == GPIO_Digital::HIGH);
+void Switch::setActiveState(GPIO_Digital::State state) {
+	activeState = (state == GPIO_Digital::HIGH);
 }
 
 }
