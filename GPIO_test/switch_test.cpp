@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <iostream>
 #include "../src/periphery/sensor/switch.h"
+#include "../src/periphery/actor/LED.h"
 
 using namespace RSL;
 using namespace std;
@@ -27,9 +28,19 @@ void oldTest() {
 	}
 }
 
-void newTest(){
+void newTest() {
+	bool switch_state = false;
 	Switch switch_(GPIOPin::P9_12);
-	switch_.isPressed();
+	LED led_(GPIOPin::P9_13);
+	while (1) {
+		if (switch_.isPressed() != switch_state) {
+			if (switch_.isPressed()) {
+				led_.toggle();
+			}
+			switch_state = !switch_state;
+		}
+
+	}
 }
 
 int main(int argc, char **argv) {

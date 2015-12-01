@@ -5,9 +5,9 @@
  *      @author Yannic, Moritz
  */
 
-#include "../../../GPIO.h"
-#include "../../../GPIO_PWM.h"
-#include "../../../HWManager.h"
+#include "../../GPIO.h"
+#include "../../GPIO_PWM.h"
+#include "../../HWManager.h"
 #include "./Servo.h"
 
 namespace RSL {

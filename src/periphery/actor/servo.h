@@ -9,7 +9,7 @@
 
 namespace RSL {
 
-#include "../../../GPIO_PWM.h"
+#include "../../GPIO_PWM.h"
 
 class Servo {
 
