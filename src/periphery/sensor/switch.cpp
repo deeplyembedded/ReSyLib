@@ -1,8 +1,8 @@
 /*
  * switch.cpp
  *
- *      @date 2.12.2015
- *      @author Easy, JI, Daniel, Till
+ *      @date 01.12.2015
+ *      @author Easy, Jannik Iacobi, Daniel Sarnow, Till Kaiser
  */
 
 #include "Switch.h"
@@ -10,19 +10,26 @@
 
 namespace RSL {
 
-Switch::Switch(GPIOPin& pin_)
+Switch::Switch(GPIOPin pin_)
     : activeState(false)
-    , pin((GPIO_Digital&)getGPIOResource(DIGITAL, pin_))
 {
-    pin.setDirection(INPUT);
+	RSL_core::HWManager& hwManager = RSL_core::HWManager::getInstance();
+	if(&hwManager == NULL){
+		//TODO: error handling and return / destroy self
+	}
+	pin = (GPIO_Digital*)hwManager.createGPIOResource(DIGITAL,pin_);
+	if(pin == NULL){
+		//TODO: error handling and return / destroy self
+	}
+	pin->setDirection(INPUT);
 }
 
 Switch::~Switch(){
-    pin.shutdown();
+    pin->shutdown();
 }
 
 bool Switch::isPressed(){
-    GPIO_Digital::State pinValue = pin.getValue();
+    GPIO_Digital::State pinValue = pin->getValue();
     return (activeState) ? pinValue : !pinValue;
 }
 

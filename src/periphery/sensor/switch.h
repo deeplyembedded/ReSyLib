@@ -1,8 +1,8 @@
 /*
  * switch.h
  *
- *      @date 27.10.2015
- *      @author Easy, JI, Daniel, Till
+ *      @date 01.12.2015
+ *      @author Easy, Jannik Iacobi, Daniel Sarnow, Till Kaiser
  */
 
 #ifndef SWITCH_H_
@@ -24,7 +24,7 @@ private:
     /**
      * the first (or only) gpio pin used by the switch.
      */
-    GPIO_Digital& pin;
+    GPIO_Digital* pin;
 
 public:
 
@@ -33,7 +33,7 @@ public:
      * registers the GPIOPin.
      * @param pin the PIN used by the switch
      */
-    Switch(GPIOPin& pin);
+    Switch(GPIOPin pin);
 
     /**
      * destructor that unregisters the GPIOPins
