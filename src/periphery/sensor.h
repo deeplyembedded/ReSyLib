@@ -2,7 +2,7 @@
  * Sensor.h
  *
  *  @date   03.11.2015
- *  @author Easy, JI, Daniel, Till
+ *  @author Easy, Jannik Iacobi, Daniel Sarnow, Till Kaiser
  */
 
 #ifndef SRC_RSL_PERIPHERY_SENSOR_H_

@@ -1,8 +1,8 @@
 /*
  * switch.cpp
  *
- *      @date 2.12.2015
- *      @author Easy, JI, Daniel, Till
+ *      @date 01.12.2015
+ *      @author Easy, Jannik Iacobi, Daniel Sarnow, Till Kaiser
  */
 
 #include "Switch.h"

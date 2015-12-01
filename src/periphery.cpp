@@ -2,7 +2,7 @@
  * Periphery.cpp
  *
  *  @date   03.11.2015
- *  @author Easy, JI, Daniel, Till
+ *  @author Easy, Jannik Iacobi, Daniel Sarnow, Till Kaiser
  *
  */
 
