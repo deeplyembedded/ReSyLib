@@ -2,58 +2,62 @@
 // Created by Marc on 09.11.2015.
 //
 
-    #ifndef RESYLIB_LED_H
-    #define RESYLIB_LED_H
+#ifndef RESYLIB_LED_H
+#define RESYLIB_LED_H
 
-    //#include "../actor.h"
-	#include "../../GPIO.h"
-	#include "../../GPIO_Digital.h"
-	#include "../../HWManager.h"
+//#include "../actor.h"
+#include "../../GPIO.h"
+#include "../../GPIO_Digital.h"
+#include "../../HWManager.h"
+#include <memory>
 
-    namespace RSL {
-    using namespace RSL_core;
-        class LED {
+namespace RSL {
 
-        private:
+using namespace RSL_core;
+using namespace std;
 
-            /**
-             * remembers whether the LED is on (true = on)
-             */
-            bool _isOn;
+class LED {
 
-            /**
-             * The GPIO pin used by the LD.
-             */
-            GPIO_Digital* _gpio_d;
+private:
 
-        public:
+	/**
+	 * remembers whether the LED is on (true = on)
+	 */
+	bool _isOn;
 
-            /**
-             * Constructor for the LED, the given pin will be registered.
-             */
-            LED(GPIOPin pin);
+	/**
+	 * The GPIO pin used by the LD.
+	 */
+	unique_ptr<GPIO_Digital> _gpio_d;
 
-            /**
-             * Switches the LED on.
-             */
-            void on();
+public:
 
-            /**
-             * Switches the LED off.
-             */
-            void off();
+	/**
+	 * Constructor for the LED, the given pin will be registered.
+	 */
+	LED(const GPIOPin pin);
 
-            /**
-             * If on switches off, if off switches on.
-             */
-            void toggle();
+	/**
+	 * Switches the LED on.
+	 */
+	void on();
 
-            /**
-             * Destructor that unregisters the GPIO-pin
-             */
-            ~LED();
-        };
+	/**
+	 * Switches the LED off.
+	 */
+	void off();
 
-    }
+	/**
+	 * If on switches off, if off switches on.
+	 */
+	void toggle();
 
-    #endif //RESYLIB_LED_H
+	/**
+	 * Destructor that unregisters the GPIO-pin
+	 */
+	~LED();
+};
+
+}
+
+#endif //RESYLIB_LED_H

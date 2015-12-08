@@ -18,7 +18,7 @@ using namespace std;
 using namespace RSL;
 
 // todo check pin form usability
-GPIO_PWM::GPIO_PWM(GPIOPin pin) {
+GPIO_PWM::GPIO_PWM(const GPIOPin pin) {
 	this->pin = pin;
 
 	polarity = Polarity::PHASED;
@@ -44,7 +44,7 @@ void GPIO_PWM::initialize() {
 	fileStream << "bone_pwm_" + GPIO_PWM::getPinNameFromEnum(pin);
 	fileStream.flush();
 	fileStream.close();
-	usleep(1000);
+	usleep(2000000);
 
 	pwmPinPath = PWM_PATH + getPWMNameFromEnum(pin);
 	std::cout << "'" << pwmPinPath << "'" << endl;
@@ -77,7 +77,7 @@ void GPIO_PWM::shutdown() {
 	unExportPin(pin);
 }
 
-void GPIO_PWM::setPeriod(unsigned int period) {
+void GPIO_PWM::setPeriod(const unsigned int period) {
 	this->period = period;
 	periodFileStream << to_string(period);
 	periodFileStream.flush();
@@ -87,7 +87,7 @@ unsigned int GPIO_PWM::getPeriod() {
 	return period;
 }
 
-void GPIO_PWM::setDuty(unsigned int duty) {
+void GPIO_PWM::setDuty(const unsigned int duty) {
 	this->duty = duty;
 	dutyFileStream << to_string(duty);
 	dutyFileStream.flush();
@@ -97,7 +97,7 @@ unsigned int GPIO_PWM::getDuty() {
 	return this->duty;
 }
 
-void GPIO_PWM::setPolarity(Polarity polarity) {
+void GPIO_PWM::setPolarity( const Polarity polarity) {
 	this->polarity = polarity;
 	polarityFileStream << to_string(polarity);
 	polarityFileStream.flush();
@@ -123,7 +123,7 @@ GPIO_PWM::PWMState GPIO_PWM::getPWMState() {
 	return this->pwmState;
 }
 
-string GPIO_PWM::getPinNameFromEnum(GPIOPin pin) {
+string GPIO_PWM::getPinNameFromEnum(const GPIOPin pin) {
 	switch (pin) {
 		case P8_13: return "P8_13";
 		case P8_19: return "P8_19";
@@ -138,7 +138,7 @@ string GPIO_PWM::getPinNameFromEnum(GPIOPin pin) {
 	return "";
 }
 
-string GPIO_PWM::getPWMNameFromEnum(GPIOPin pin) {
+string GPIO_PWM::getPWMNameFromEnum(const GPIOPin pin) {
 	string tmpPath = getPinNameFromEnum(pin);
 
 	if (tmpPath != "") {
@@ -148,7 +148,7 @@ string GPIO_PWM::getPWMNameFromEnum(GPIOPin pin) {
 	}
 }
 
-string GPIO_PWM::findPWMName(string path, string pinName) {
+string GPIO_PWM::findPWMName(const string path, const string pinName) {
 	DIR* openedDir = opendir(path.c_str());
 	struct dirent* readDir;
 

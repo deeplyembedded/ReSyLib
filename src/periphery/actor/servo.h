@@ -23,7 +23,7 @@ private:
     /**
      * the pin used for servo pwm
      */
-    GPIO_PWM* servoPin;
+    unique_ptr<GPIO_PWM> servoPin;
 
 public:
 

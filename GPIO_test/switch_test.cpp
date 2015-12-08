@@ -30,7 +30,8 @@ void oldTest() {
 
 void newTest() {
 	bool switch_state = false;
-	Switch switch_(GPIOPin::P9_12);
+	Switch switch_;
+	switch_.initialize(GPIOPin::P9_12);
 	LED led_(GPIOPin::P9_13);
 	while (1) {
 		if (switch_.isPressed() != switch_state) {

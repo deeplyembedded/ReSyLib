@@ -3,16 +3,15 @@
 //
 
 #include "./LED.h"
-
+#include <memory>
 namespace RSL {
 
 /**
  * Constructor of the LED.
  */
-LED::LED(GPIOPin pin) {
+LED::LED(const GPIOPin pin) {
 	//TODO : Check if casting possible
-	_gpio_d = (GPIO_Digital*) HWManager::getInstance().createGPIOResource(
-			GPIOType::DIGITAL, pin);
+	_gpio_d = move(unique_ptr<GPIO_Digital>(static_cast<GPIO_Digital*>(HWManager::getInstance().createGPIOResource(DIGITAL,pin).release())));
 
 	//Set direction to output.
 	_gpio_d->setDirection(RSL::OUTPUT);
