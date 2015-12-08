@@ -27,7 +27,8 @@ bool Switch::isInitialized() const {
 void Switch::initialize(GPIOPin pin_) {
 	RSL_core::HWManager& hwManager = RSL_core::HWManager::getInstance();
 
-	pin = (unique_ptr<GPIO_Digital>)hwManager.createGPIOResource(DIGITAL,pin_);
+	pin = move(unique_ptr<GPIO_Digital>(static_cast<GPIO_Digital*>(hwManager.createGPIOResource(DIGITAL,pin_).release())));
+
 	if(pin == nullptr){
 		//TODO: error handling and return / destroy self
 	}

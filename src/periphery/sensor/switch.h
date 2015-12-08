@@ -53,7 +53,7 @@ public:
      * initializes switch with GPIO pin
      * @param GPIOPin
      */
-    void initialize(GPIOPin pin);
+    void initialize(GPIOPin pin_);
 
     /**
      * get the active state of the switch.
