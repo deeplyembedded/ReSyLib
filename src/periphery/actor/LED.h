@@ -35,7 +35,7 @@ public:
 	/**
 	 * Constructor for the LED, the given pin will be registered.
 	 */
-	LED(GPIOPin pin);
+	LED(const GPIOPin pin);
 
 	/**
 	 * Switches the LED on.

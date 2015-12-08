@@ -15,19 +15,19 @@ namespace RSL {
 			enum Polarity: unsigned int {PHASED = 1, DEPHASED = 0};
 			enum PWMState: unsigned int {ON=1, OFF=0};
 
-			GPIO_PWM(GPIOPin pin);
+			GPIO_PWM(const GPIOPin pin);
 			~GPIO_PWM();
 
 			void initialize();
 			void shutdown();
 
-			void setPeriod(unsigned int period);
+			void setPeriod(const unsigned int period);
 			unsigned int getPeriod();
 
-			void setDuty(unsigned int duty);
+			void setDuty(const unsigned int duty);
 			unsigned int getDuty();
 
-			void setPolarity(Polarity polarity);
+			void setPolarity(const Polarity polarity);
 			Polarity getPolarity();
 
 			void enablePWM();
@@ -44,9 +44,9 @@ namespace RSL {
 			unsigned int period, duty;
 			std::fstream dutyFileStream, periodFileStream, polarityFileStream, activeFileStream;
 
-			string getPinNameFromEnum(GPIOPin pin);
-			string getPWMNameFromEnum(GPIOPin pin);
-			string findPWMName(string path, string pinName);
+			string getPinNameFromEnum(const GPIOPin pin);
+			string getPWMNameFromEnum(const GPIOPin pin);
+			string findPWMName(const string path, const string pinName);
 	};
 
 };
