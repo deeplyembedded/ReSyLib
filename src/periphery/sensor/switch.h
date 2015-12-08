@@ -5,8 +5,7 @@
  *      @author Easy, Jannik Iacobi, Daniel Sarnow, Till Kaiser
  */
 
-#ifndef SWITCH_H_
-#define SWITCH_H_
+#pragma once
 
 #include <memory>
 #include "../Sensor.h"
@@ -82,4 +81,3 @@ private:
 
 } /* namespace RSL */
 
-#endif /* SWITCH_H_ */
