@@ -3,6 +3,7 @@
 #include "GPIO.h"
 #include <unordered_set>
 #include <vector>
+#include <memory>
 
 namespace RSL_core {
 class HWManager
@@ -15,12 +16,11 @@ class HWManager
             return instance;
         };
 		
-		GPIO* createGPIOResource(RSL::GPIOType type, RSL::GPIOPin pin);
-		GPIO* createGPIOResource(RSL::GPIOType type, std::vector<RSL::GPIOPin>& pins);
-		void deleteGPIOResource(GPIO* resource);
+        std::unique_ptr<GPIO> createGPIOResource(const RSL::GPIOType type, const RSL::GPIOPin pin);
+        std::unique_ptr<GPIO> createGPIOResource(const RSL::GPIOType type, const std::vector<RSL::GPIOPin>& pins);
 
-		void allocateGPIOPin(RSL::GPIOPin pin);
-		void freeGPIOPin(RSL::GPIOPin pin);
+		void allocateGPIOPin(const RSL::GPIOPin pin);
+		void freeGPIOPin(const RSL::GPIOPin pin);
 		
     private:
 		std::unordered_set<int> pinsInUse;

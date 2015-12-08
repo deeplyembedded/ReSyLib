@@ -1,18 +1,19 @@
 #include "HWManager.h"
 #include "GPIO_Digital.h"
+#include "GPIO_PWM.h"
 
 namespace RSL_core {
 using namespace RSL_core;
 
 HWManager::HWManager(){}
 
-GPIO* HWManager::createGPIOResource(RSL::GPIOType type, RSL::GPIOPin pin) {
-	GPIO* resource;
+std::unique_ptr<GPIO> HWManager::createGPIOResource(const RSL::GPIOType type, const RSL::GPIOPin pin) {
+	std::unique_ptr<GPIO> resource = NULL;
 	if (pinsInUse.count((int)pin) == 0) {
 		if (type==RSL::DIGITAL) {
-			resource = new RSL::GPIO_Digital(pin);
+			resource = std::unique_ptr<RSL::GPIO_Digital>(new RSL::GPIO_Digital(pin));
 		} else if (type==RSL::PWM) {
-
+			resource = std::unique_ptr<RSL::GPIO_PWM>(new RSL::GPIO_PWM(pin));
 		}
 	}
 
@@ -23,9 +24,9 @@ GPIO* HWManager::createGPIOResource(RSL::GPIOType type, RSL::GPIOPin pin) {
 	return resource;
 }
 
-GPIO* HWManager::createGPIOResource(RSL::GPIOType type,
-		std::vector<RSL::GPIOPin>& pins) {
-	GPIO* resource = NULL;
+std::unique_ptr<GPIO> HWManager::createGPIOResource(const RSL::GPIOType type,
+		const std::vector<RSL::GPIOPin>& pins) {
+	std::unique_ptr<GPIO> resource = NULL;
 	bool allPinsFree = true;
 
 	for (auto p : pins) {
@@ -45,15 +46,11 @@ GPIO* HWManager::createGPIOResource(RSL::GPIOType type,
 	return resource;
 }
 
-void HWManager::deleteGPIOResource(GPIO* resource) {
-	resource->shutdown();
-}
-
-void HWManager::allocateGPIOPin(RSL::GPIOPin pin) {
+void HWManager::allocateGPIOPin(const RSL::GPIOPin pin) {
 	pinsInUse.insert((int)pin);
 }
 
-void HWManager::freeGPIOPin(RSL::GPIOPin pin) {
+void HWManager::freeGPIOPin(const RSL::GPIOPin pin) {
 	pinsInUse.erase((int)pin);
 }
 }
