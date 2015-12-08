@@ -21,7 +21,6 @@ class JoystickDigital: public Sensor {
 private:
 	unique_ptr<GPIO_Digital> pinX;
 	unique_ptr<GPIO_Digital> pinY;
-	unique_ptr<GPIO_Digital> pinSW;
 	RSL::Switch switchObject;
 
 public:
@@ -55,7 +54,7 @@ public:
 	 */
 	void initialize(GPIOPin pinX_, GPIOPin pinY_, GPIOPin pinSW_);
 
-	Switch getSwitchObject();
+	Switch& getSwitchObject();
 
 	JoystickDigital();
 	virtual ~JoystickDigital();

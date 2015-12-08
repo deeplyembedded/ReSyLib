@@ -14,7 +14,7 @@ namespace RSL {
  * X und Y Position des Joysticks, werden als analoge Spannung auf den Ausgangspins ausgegeben.
  */
 
-JoystickDigital::JoystickDigital() : pinX(nullptr),pinY(nullptr),pinSW(nullptr){
+JoystickDigital::JoystickDigital() : pinX(nullptr),pinY(nullptr),switchObject(){
 
 }
 
@@ -22,16 +22,15 @@ bool JoystickDigital::isInitialized() const {
 	return ((pinX != nullptr) && (pinX != nullptr));
 }
 
-Switch JoystickDigital::getSwitchObject(){
+Switch& JoystickDigital::getSwitchObject(){
 	return switchObject;
 }
 
 void JoystickDigital::initialize(GPIOPin pinX_, GPIOPin pinY_) {
  	RSL_core::HWManager& hwManager = RSL_core::HWManager::getInstance();
 	if (&hwManager != NULL) {
-		pinX = (unique_ptr<GPIO_Digital>) hwManager.createGPIOResource(DIGITAL, pinX_);
-		pinY = (unique_ptr<GPIO_Digital>) hwManager.createGPIOResource(DIGITAL, pinY_);
-		pinSW = nullptr;
+		pinX = move(unique_ptr<GPIO_Digital>(static_cast<GPIO_Digital*>(hwManager.createGPIOResource(DIGITAL,pinX_).release())));
+		pinY = move(unique_ptr<GPIO_Digital>(static_cast<GPIO_Digital*>(hwManager.createGPIOResource(DIGITAL,pinY_).release())));
 		if (pinX != nullptr && pinY != nullptr) {
 			pinX->setDirection(INPUT);
 			pinY->setDirection(INPUT);
@@ -46,10 +45,10 @@ void JoystickDigital::initialize(GPIOPin pinX_, GPIOPin pinY_) {
 void JoystickDigital::initialize(GPIOPin pinX_, GPIOPin pinY_, GPIOPin pinSW_) {
  	RSL_core::HWManager& hwManager = RSL_core::HWManager::getInstance();
 	if (&hwManager != NULL) {
-		pinX = (unique_ptr<GPIO_Digital>) hwManager.createGPIOResource(DIGITAL, pinX_);
-		pinY = (unique_ptr<GPIO_Digital>) hwManager.createGPIOResource(DIGITAL, pinY_);
-		switchObject = Switch(pinSW_);
-		if (pinX != nullptr && pinY != nullptr && pinSW != nullptr) {
+		pinX = move(unique_ptr<GPIO_Digital>(static_cast<GPIO_Digital*>(hwManager.createGPIOResource(DIGITAL,pinX_).release())));
+		pinY = move(unique_ptr<GPIO_Digital>(static_cast<GPIO_Digital*>(hwManager.createGPIOResource(DIGITAL,pinY_).release())));
+		switchObject.initialize(pinSW_);
+		if (pinX != nullptr && pinY != nullptr) {
 			pinX->setDirection(INPUT);
 			pinY->setDirection(INPUT);
 		} else {
