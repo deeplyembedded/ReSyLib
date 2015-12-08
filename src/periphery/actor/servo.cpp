@@ -17,7 +17,7 @@ using namespace RSL_core;
 Servo::Servo(GPIOPin servoPin) {
 	currentPosition = 0;
 
-	this->servoPin = (GPIO_PWM*)HWManager::getInstance().createGPIOResource(GPIOType::PWM, servoPin);
+	this->servoPin = move(unique_ptr<GPIO_PWM>(static_cast<GPIO_PWM*>(HWManager::getInstance().createGPIOResource(PWM,servoPin).release())));
 }
 
 Servo::~Servo() {
