@@ -107,8 +107,8 @@ public:
 
 protected:
 
-	static void exportPin(RSL::GPIOPin pin);
-	static void unExportPin(RSL::GPIOPin pin);
+	static void exportPin(const RSL::GPIOPin pin);
+	static void unExportPin(const RSL::GPIOPin pin);
 };
 }
 ;
