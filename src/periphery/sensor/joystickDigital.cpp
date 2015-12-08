@@ -14,52 +14,61 @@ namespace RSL {
  * X und Y Position des Joysticks, werden als analoge Spannung auf den Ausgangspins ausgegeben.
  */
 
-JoystickDigital::JoystickDigital(GPIOPin pinX_, GPIOPin pinY_) {
-	RSL_core::HWManager& hwManager = RSL_core::HWManager::getInstance();
-	if (&hwManager != NULL) {
-		pinX = (GPIO_Digital*) hwManager.createGPIOResource(DIGITAL, pinX_);
-		pinY = (GPIO_Digital*) hwManager.createGPIOResource(DIGITAL, pinY_);
-		pinSW = NULL;
-		if (pinX != NULL && pinY != NULL) {
-			pinX->setDirection(INPUT);
-			pinY->setDirection(INPUT);
-		} else {
-			//TODO: error handling and return / destroy self
-		}
-	} else {
-		//TODO: error handling and return / destroy self
-	}
+JoystickDigital::JoystickDigital() : pinX(nullptr),pinY(nullptr),pinSW(nullptr){
+
 }
 
-JoystickDigital::JoystickDigital(GPIOPin pinX_, GPIOPin pinY_, GPIOPin pinSW_) {
-	RSL_core::HWManager& hwManager = RSL_core::HWManager::getInstance();
+bool JoystickDigital::isInitialized() const {
+	return ((pinX != nullptr) && (pinX != nullptr));
+}
+
+Switch JoystickDigital::getSwitchObject(){
+	return switchObject;
+}
+
+void JoystickDigital::initialize(GPIOPin pinX_, GPIOPin pinY_) {
+ 	RSL_core::HWManager& hwManager = RSL_core::HWManager::getInstance();
 	if (&hwManager != NULL) {
-		pinX = (GPIO_Digital*) hwManager.createGPIOResource(DIGITAL, pinX_);
-		pinY = (GPIO_Digital*) hwManager.createGPIOResource(DIGITAL, pinY_);
-		pinSW = (GPIO_Digital*) hwManager.createGPIOResource(DIGITAL, pinSW_);
-		if (pinX != NULL && pinY != NULL && pinSW != NULL) {
+		pinX = (unique_ptr<GPIO_Digital>) hwManager.createGPIOResource(DIGITAL, pinX_);
+		pinY = (unique_ptr<GPIO_Digital>) hwManager.createGPIOResource(DIGITAL, pinY_);
+		pinSW = nullptr;
+		if (pinX != nullptr && pinY != nullptr) {
 			pinX->setDirection(INPUT);
 			pinY->setDirection(INPUT);
-			pinSW->setDirection(INPUT);
 		} else {
 			//TODO: error handling and return / destroy self
 		}
 	} else {
 		//TODO: error handling and return / destroy self
 	}
-}
+ }
+
+void JoystickDigital::initialize(GPIOPin pinX_, GPIOPin pinY_, GPIOPin pinSW_) {
+ 	RSL_core::HWManager& hwManager = RSL_core::HWManager::getInstance();
+	if (&hwManager != NULL) {
+		pinX = (unique_ptr<GPIO_Digital>) hwManager.createGPIOResource(DIGITAL, pinX_);
+		pinY = (unique_ptr<GPIO_Digital>) hwManager.createGPIOResource(DIGITAL, pinY_);
+		switchObject = Switch(pinSW_);
+		if (pinX != nullptr && pinY != nullptr && pinSW != nullptr) {
+			pinX->setDirection(INPUT);
+			pinY->setDirection(INPUT);
+		} else {
+			//TODO: error handling and return / destroy self
+		}
+	} else {
+		//TODO: error handling and return / destroy self
+	}
+ }
 
 JoystickDigital::~JoystickDigital() {
-	if(pinSW != NULL)
-		pinSW->shutdown();
-	if(pinX != NULL)
+	if(pinX != nullptr)
 		pinX->shutdown();
-	if(pinY != NULL)
+	if(pinY != nullptr)
 		pinY->shutdown();
 
 }
 
-JoystickDigital::JoystickDirection JoystickDigital::direction() {
+JoystickDigital::JoystickDirection JoystickDigital::direction() const {
 	JoystickDigital::JoystickDirection result = UNKNOWN;
 	switch (pinX->getValue()) {
 		case GPIO_Digital::HIGH:

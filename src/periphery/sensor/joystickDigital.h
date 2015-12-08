@@ -8,16 +8,21 @@
 #ifndef JOYSTICK_DIGITAL_H_
 #define JOYSTICK_DIGITAL_H_
 
+#include <memory>
 #include "../Sensor.h"
+#include "switch.h"
 
 namespace RSL {
+
+using namespace std;
 
 class JoystickDigital: public Sensor {
 
 private:
-	RSL::GPIO_Digital* pinX;
-	RSL::GPIO_Digital* pinY;
-	RSL::GPIO_Digital* pinSW;
+	unique_ptr<GPIO_Digital> pinX;
+	unique_ptr<GPIO_Digital> pinY;
+	unique_ptr<GPIO_Digital> pinSW;
+	RSL::Switch switchObject;
 
 public:
 
@@ -27,9 +32,32 @@ public:
 	 *
 	 * @return the direction as an enum of Type JoystickDirection
 	 */
-	JoystickDigital::JoystickDirection direction();
-	JoystickDigital(GPIOPin pinX_, GPIOPin pinY_);
-	JoystickDigital(GPIOPin pinX_, GPIOPin pinY_, GPIOPin pinSW_);
+	JoystickDigital::JoystickDirection direction() const;
+
+	/**
+	 * check if pins has been initialized
+	 * @return true if pins have been assigned
+	 */
+	bool isInitialized() const;
+
+	/**
+	 * initializes joystick with x and y axis pins
+	 * @param pinX_
+	 * @param pinY_
+	 */
+	void initialize(GPIOPin pinX_, GPIOPin pinY_);
+
+	/**
+	 * initializes joystick with x, y axis and switch pins
+	 * @param pinX_
+	 * @param pinY_
+	 * @param pinSW_
+	 */
+	void initialize(GPIOPin pinX_, GPIOPin pinY_, GPIOPin pinSW_);
+
+	Switch getSwitchObject();
+
+	JoystickDigital();
 	virtual ~JoystickDigital();
 
 };
