@@ -21,9 +21,9 @@ namespace RSL {
 			unsigned int getValue();
 
 		private:
-			static const string SLOT_FILE_PATH = "/sys/devices/bone_capemgr.9/slots";
-			static string analog_path = "/sys/devices/ocp.3/";
-			static bool initialized = false;
+			const string SLOT_FILE_PATH = "/sys/devices/bone_capemgr.9/slots";
+			string analog_path = "/sys/devices/ocp.3/";
+			static bool initialized;
 
 			AINPin pin;
 			std::fstream valueFileStream;

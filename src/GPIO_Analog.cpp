@@ -17,6 +17,9 @@ namespace RSL {
 using namespace std;
 using namespace RSL;
 
+
+bool GPIO_Analog::initialized = false;
+
 GPIO_Analog::GPIO_Analog(AINPin pin) {
 	this->pin = pin;
 }
@@ -39,7 +42,9 @@ void GPIO_Analog::initialize() {
 		usleep(1000);
 	}
 
-	valueFileStream.open(analog_path + "/AIN" + to_string((int) pin));
+	valueFileStream.open(analog_path + "/AIN" + to_string((int) pin), fstream::in);
+	if (valueFileStream.fail())
+		cout << "Failed to open valueFileStream!" << endl;
 }
 
 void GPIO_Analog::shutdown() {
@@ -63,7 +68,7 @@ string GPIO_Analog::findHelperPath(string containingDir) {
 		while ((readDir = readdir(openedDir)) != NULL) {
 			if (strstr(readDir->d_name, "helper.") != NULL) {
 				closedir(openedDir);
-				return readDir->d_name;
+				return containingDir + readDir->d_name;
 			}
 		}
 
