@@ -1,5 +1,6 @@
 #include "HWManager.h"
 #include "GPIO_Digital.h"
+#include "GPIO_PWM.h"
 
 namespace RSL_core {
 using namespace RSL_core;
@@ -10,9 +11,9 @@ std::unique_ptr<GPIO> HWManager::createGPIOResource(const RSL::GPIOType type, co
 	std::unique_ptr<GPIO> resource = NULL;
 	if (pinsInUse.count((int)pin) == 0) {
 		if (type==RSL::DIGITAL) {
-			resource = make_unique<RSL::GPIO_Digital>(pin);
+			resource = std::unique_ptr<RSL::GPIO_Digital>(new RSL::GPIO_Digital(pin));
 		} else if (type==RSL::PWM) {
-			resource = make_unique<RSL::GPIO_PWM>(pin);
+			resource = std::unique_ptr<RSL::GPIO_PWM>(new RSL::GPIO_PWM(pin));
 		}
 	}
 
