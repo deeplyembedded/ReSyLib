@@ -18,12 +18,12 @@ public:
 			LOW = 0, HIGH = 1
 	};
 
-	GPIO_Digital(GPIOPin pin);
+	GPIO_Digital(const GPIOPin pin);
 
-	void setDirection(Direction direction);
+	void setDirection(const Direction direction);
 	Direction getDirection();
 
-	void setValue(State value);
+	void setValue(const State value);
 	State getValue();
 
 	~GPIO_Digital();

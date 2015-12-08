@@ -4,14 +4,14 @@
 namespace RSL_core {
 using namespace RSL_core;
 
-void GPIO::exportPin(RSL::GPIOPin pin) {
+void GPIO::exportPin(const RSL::GPIOPin pin) {
 	std::fstream fileStream;
 	fileStream.open("/sys/class/gpio/export", std::fstream::out);
 	fileStream << pin;
 	fileStream.close();
 }
 
-void GPIO::unExportPin(RSL::GPIOPin pin) {
+void GPIO::unExportPin(const RSL::GPIOPin pin) {
 	std::fstream fileStream;
 	fileStream.open("/sys/class/gpio/unexport", std::fstream::out);
 	fileStream << pin;

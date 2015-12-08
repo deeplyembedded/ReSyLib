@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <iostream>
 
-int main(int argc, char **argv) {
+int main2(int argc, char **argv) {
 	using namespace RSL;
 
 	GPIO_PWM servoPin(GPIOPin::P9_14);

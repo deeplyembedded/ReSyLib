@@ -6,7 +6,7 @@ namespace RSL {
 using namespace RSL;
 using namespace std;
 
-GPIO_Digital::GPIO_Digital(GPIOPin pin) {
+GPIO_Digital::GPIO_Digital(const GPIOPin pin) {
 	this->pin = pin;
 }
 
@@ -28,7 +28,7 @@ void GPIO_Digital::shutdown() {
 	unExportPin(pin);
 }
 
-void GPIO_Digital::setDirection(Direction direction) {
+void GPIO_Digital::setDirection(const Direction direction) {
 	valueFileStream.seekg(0);
 	directionFileStream.seekg(0);
 	switch (direction) {
@@ -63,7 +63,7 @@ Direction GPIO_Digital::getDirection() {
 	}
 }
 
-void GPIO_Digital::setValue(GPIO_Digital::State value) {
+void GPIO_Digital::setValue(const GPIO_Digital::State value) {
 	valueFileStream << value;
 	valueFileStream.flush();
 }
