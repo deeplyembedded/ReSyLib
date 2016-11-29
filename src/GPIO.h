@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+/// Testkommentar
 namespace RSL {
 enum GPIOPin
 	: unsigned int {
